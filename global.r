@@ -1,3 +1,5 @@
+#nettoyage de l'espace de travail
+rm(list=ls())
 
 #installation package et librairies
 library(shiny)
@@ -10,8 +12,7 @@ library(readr) #librairie import csv
 
 setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
-#nettoyage de l'espace de travail
-rm(list=ls())
+
 #----Fonction d'importation et nettoyage
 
 impor_netto<-function(CHEMIN, ANNEE){

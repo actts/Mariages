@@ -60,17 +60,18 @@ includeCSS("www/test.css"),
 server<-function(input, output, session) {
 
 #Tranche d'âge selon âge entré
-TAGE<-reactive({
-	if (input$age<30){
-		TAGE<-1
-	}
-	else if (input$age>=30&input$age<50){
-		TAGE<-2
-	}
-	else if (input$age>=50){
-		TAGE<-3
-	}
-})
+# TAGE<-reactive({
+	# if (input$age<30){
+		# TAGE<-1
+	# }
+	# else if (input$age>=30&input$age<50){
+		# TAGE<-2
+	# }
+	# else if (input$age>=50){
+		# TAGE<-3
+	# }
+# })
+
 
 #A partir d'ici, nous considérerons la personne
 #Exemple : Mdata1 > lorsque la personne considérée = variables[1] et le conjoint considéré = variables[2]
@@ -88,11 +89,15 @@ Ddata0<-reactive({
 })
 
 Ddata1<-reactive({
-Ddata1<-Ddata0()[Ddata0()$TAGE1==TAGE()&Ddata0()$DEPNAIS1==input$dep,]
+binf<-input$age-5
+bsup<-input$age+5
+Ddata1<-Ddata0()[Ddata0()$AGE1%in% binf:bsup &Ddata0()$DEPNAIS1==input$dep,]
 })
 
 Ddata2<-reactive({
-Ddata2<-Ddata0()[Ddata0()$TAGE2==TAGE()&Ddata0()$DEPNAIS2==input$dep,]
+binf<-input$age-5
+bsup<-input$age+5
+Ddata2<-Ddata0()[Ddata0()$AGE2%in% binf:bsup &Ddata0()$DEPNAIS2==input$dep,]
 })
 
 #Mdata : jeu de données correspondant au profil avec conjoint meme dep
@@ -108,11 +113,15 @@ Mdata0<-reactive({
 })
 
 Mdata1<-reactive({
-Mdata1<-Mdata0()[Mdata0()$TAGE1==TAGE(),]
+binf<-input$age-5
+bsup<-input$age+5
+Mdata1<-Mdata0()[Mdata0()$AGE1 %in% binf:bsup,]
 })
 
 Mdata2<-reactive({
-Mdata2<-Mdata0()[Mdata0()$TAGE2==TAGE(),]
+binf<-input$age-5
+bsup<-input$age+5
+Mdata2<-Mdata0()[Mdata0()$AGE2 %in% binf:bsup,]
 })
 
 
@@ -187,7 +196,7 @@ output$text2<-renderText({
 
 output$text3<-renderText({
 	num<-nrow(Mdata1()[Mdata1()$DEPNAIS1==Mdata1()$DEPMAR,])+nrow(Mdata2()[Mdata2()$DEPNAIS2==Mdata2()$DEPMAR,])+nrow(Ddata1()[Ddata1()$DEPNAIS1==Ddata1()$DEPMAR,])+nrow(Ddata2()[Ddata2()$DEPNAIS2==Ddata2()$DEPMAR,])
-	denom<-nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata1())
+	denom<-nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata2())
 	depmar<-round(num/denom*100)
 	paste(depmar, "% des personnes du même profil se marient dans le département dans lequel ils sont nés")
 })
@@ -196,8 +205,6 @@ output$textfin<-renderText({
 	paste("Observation réalisée grâce à un recensement de",nrow(Ddata1())+nrow(Ddata2()), " personnes mariées présentant votre profil sur ", 2*nrow(MARIAGES), "personnes totales.")
 	})
 
-	
-	
 output$logo <- renderImage({
 
     return(list(src = "images/logo.png"))	
