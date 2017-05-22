@@ -1,0 +1,30 @@
+body{
+	background-color: #40c2cc;
+	;
+}
+
+h2 {
+    text-align: center;
+	color:white
+}
+
+form.well {
+    background-color: #F0EAE8;
+	border-radius: 10px;
+}
+
+div#sexe1 {
+    color: black;
+}
+
+.row {
+    margin-right: -15px;
+    margin-left: -15px;
+    color: white;
+}
+
+div#logo img {
+    width: 200px;
+    margin-top: 100px;
+}
+
