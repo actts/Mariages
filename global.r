@@ -6,8 +6,9 @@ install.packages("wordcloud2") # générateur de word-cloud
 install.packages("RColorBrewer") # Palettes de couleurs
 library("wordcloud2")
 library("RColorBrewer")
+library(readr) #librairie import csv
 
-setwd("C:/Users/acottais/Documents/Etudes/Mariages/ShinyApp")
+setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
 #nettoyage de l'espace de travail
 rm(list=ls())
@@ -85,8 +86,10 @@ MARIAGES$TAGE2<-replace(MARIAGES$TAGE2, MARIAGES$TAGE2<30,1)
 MARIAGES$TAGE2<-replace(MARIAGES$TAGE2, MARIAGES$TAGE2>50,3)
 MARIAGES$TAGE2<-replace(MARIAGES$TAGE2, MARIAGES$TAGE2>3,2)
 
+
+
 #Jeu de donnée associant le num du dep à son libellé
-DEPLIB<-read.table("datasets/listeDEP.csv", sep=";", stringsAsFactors=FALSE,header=TRUE)
+DEPLIB <- read_delim("datasets/listeDEP.csv", ";", escape_double = FALSE, locale = locale(encoding = "ASCII"), trim_ws = TRUE)
 
 #Considère slmt les mariages où les conjoints viennent de dep différents
 DDEP<-MARIAGES[MARIAGES$DEPNAIS1!=MARIAGES$DEPNAIS2,]

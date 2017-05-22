@@ -48,7 +48,8 @@ includeCSS("www/test.css"),
 			textOutput('text3'),
 			#nb obs pour le cas considéré
 			textOutput('textfin'),
-			plotOutput('logo')
+			plotOutput('logo'),
+			tableOutput('table')
 		)
 		
 	)
@@ -129,6 +130,13 @@ Mterms<-reactive({
 		colnames(TABLE2)<-c("dep","freq2")
 		#Fusion : objectif: table des fréquences de mariages par département pour le cas considéré (HF/HH/FF)
 		TABLE<-merge(TABLE1,TABLE2, by="dep", all=TRUE)
+		if(nrow(TABLE1)==0&nrow(TABLE2)==0){
+		TABLE[1,1]<-"Aucun mariage"
+		TABLE[1,2]<-1
+		TABLE[2,1]<-"correspondant"
+		TABLE[2,2]<-1
+		Terms<-TABLE[,-3]
+		} else  {		
 		#Le département considéré est forcément bcp + grand,
 		#on lui donne la valeur 0 pour que le wordcloud montre correctement les nuances entre les autres dép.
 		TABLE[TABLE$dep==input$dep,2]<-0
@@ -146,16 +154,13 @@ Mterms<-reactive({
 		TABLE<-TABLE[,-c(1,3,4)]
 		TABLE$freq<-as.numeric(paste(TABLE$freq))
 		
-		if(nrow(TABLE1)==0&nrow(TABLE2)==0){
-		TABLE[1,1]<-"Votre profil ne correspond à aucun mariage"
-		TABLE[1,2]<-100
-		}
-		else  
 		Terms<-TABLE[order(TABLE[,2],decreasing=FALSE),] 
+		}	
 })
 
  # brewer.pal(8, "Spectral")
-
+output$table<-renderTable({Mterms()})
+ 
 output$nuage <- renderWordcloud2({
 	wordcloud2(data=head(Mterms(),20), size = 1, minSize = 2, gridSize = 0,
 		fontFamily = 'Calibri', fontWeight = 'bold',
