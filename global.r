@@ -86,7 +86,9 @@ MARIAGES$AGE2<-MARIAGES$AMAR-MARIAGES$ANAIS2
 
 
 #Jeu de donnée associant le num du dep à son libellé
-DEPLIB <- read_delim("datasets/listeDEP.csv", ";", escape_double = FALSE, locale = locale(encoding = "ASCII"), trim_ws = TRUE)
+DEPLIB <- read_delim("datasets/listeDEP.csv", ";", escape_double = FALSE,
+ #locale = locale(encoding = "ASCII"), 
+trim_ws = TRUE)
 
 #Considère slmt les mariages où les conjoints viennent de dep différents
 DDEP<-MARIAGES[MARIAGES$DEPNAIS1!=MARIAGES$DEPNAIS2,]
