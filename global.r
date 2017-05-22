@@ -2,9 +2,9 @@
 #installation package et librairies
 library(shiny)
 
-install.packages("wordcloud") # générateur de word-cloud 
+install.packages("wordcloud2") # générateur de word-cloud 
 install.packages("RColorBrewer") # Palettes de couleurs
-library("wordcloud")
+library("wordcloud2")
 library("RColorBrewer")
 
 setwd("C:/Users/acottais/Documents/Etudes/Mariages/ShinyApp")

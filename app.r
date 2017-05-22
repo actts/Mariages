@@ -1,4 +1,4 @@
-#source(file="global.r") 
+﻿#source(file="global.r") 
 
 options(encoding = "UTF-8")
 
@@ -41,16 +41,16 @@ includeCSS("www/test.css"),
 			#pourcentage du mm dep
 			textOutput('text1'),
 			#wordcloud
-			plotOutput('nuage'),
+			wordcloud2Output('nuage'),
 			#age moyen du conjoint
 			textOutput('text2'),
 			#pourcentage de lieux mariage dans le dep
 			textOutput('text3'),
 			#nb obs pour le cas considéré
-			textOutput('textfin')
-			
+			textOutput('textfin'),
+			plotOutput('logo')
 		)
-		plotOutput('logo')
+		
 	)
 
 )
@@ -78,7 +78,7 @@ TAGE<-reactive({
 Ddata0<-reactive({
 	#Données correspondant aux genres âge et département
 	if (input$sexe1=="Homme"&input$sexe2=="Homme") {
-		Ddata1<-DDEP[DDEP$SEXE1=="H"&DDEP$SEXE2=="H",]
+		Ddata1<-DDEP[DDEP$SEXE1=="M"&DDEP$SEXE2=="M",]
 	}  else if ( input$sexe1=="Femme"&input$sexe2=="Femme") {
 		Ddata1<-DDEP[DDEP$SEXE1=="FE"&DDEP$SEXE2=="FE",]
 	}else if (input$sexe1!=input$sexe2){
@@ -145,16 +145,25 @@ Mterms<-reactive({
 		#On supprime les 
 		TABLE<-TABLE[,-c(1,3,4)]
 		TABLE$freq<-as.numeric(paste(TABLE$freq))
-		Terms<-TABLE
-	
+		
+		if(nrow(TABLE1)==0&nrow(TABLE2)==0){
+		TABLE[1,1]<-"Votre profil ne correspond à aucun mariage"
+		TABLE[1,2]<-100
+		}
+		else  
+		Terms<-TABLE[order(TABLE[,2],decreasing=FALSE),] 
 })
 
+ # brewer.pal(8, "Spectral")
 
-
-output$nuage <- renderPlot({
-	wordcloud(words = Mterms()[,1], freq = Mterms()[,2], min.freq = 1,
-	max.words=20, random.order=FALSE, rot.per=0.5, 
-	colors=brewer.pal(8, "Paired"))
+output$nuage <- renderWordcloud2({
+	wordcloud2(data=head(Mterms(),20), size = 1, minSize = 2, gridSize = 0,
+		fontFamily = 'Calibri', fontWeight = 'bold',
+		color=c("#FFFFFF","#FFFFFF","#0778FF","#0778FF","#8FFFB2","#8FFFB2","#10F156","#10F156","#F4FF6C","#F4FF6C","#FFC536","#FFC536","#FFA600","#FFA600","#FF6400","#FF6400","#FF3E7E","#FF3E7E"), backgroundColor = "#40c2cc",
+		minRotation = -pi, maxRotation = pi, shuffle = TRUE,
+		rotateRatio = 0.4, shape = 'triangle', ellipticity = 0.65,
+		widgetsize = NULL, figPath = NULL, hoverFunction = NULL)
+	
 	})
 	
 output$text1<-renderText({
@@ -185,35 +194,9 @@ output$textfin<-renderText({
 	
 	
 output$logo <- renderImage({
-    # # When input$n is 1, filename is ./images/image1.jpeg
-    # filename <- normalizePath(file.path('images',
-                              # paste('logo', '.png', sep='')))
 
-    # Return a list containing the filename
-    return(list(src = "images/logo.png"))
-  }, deleteFile = FALSE)
-
-	
-	
-  # # image2 sends pre-rendered images
-  # output$image1 <- renderImage({
-
-    # if (input$sexe2 == "Homme") {
-      # return(list(
-        # src = "images/logo.png",
-        # contentType = "image/png",
-        # alt = "logo"
-      # ))
-    # } else if (input$sexe2 == "Femme") {
-	# return(NULL)
-      # # return(list(
-        # # src = "images/fe.jpg",
-        # # filetype = "image/jpeg",
-        # # alt = "This is a chainring"
-      # # ))
-    # }
-
-  # }, deleteFile = FALSE)
+    return(list(src = "images/logo.png"))	
+	})
 }	
 
 
