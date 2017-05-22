@@ -2,15 +2,17 @@
 rm(list=ls())
 
 #installation package et librairies
-library(shiny)
 
-install.packages("wordcloud2") # générateur de word-cloud 
-install.packages("RColorBrewer") # Palettes de couleurs
+install.packages("wordcloud2", repos='http://cran.us.r-project.org') # générateur de word-cloud 
+install.packages("RColorBrewer", repos='http://cran.us.r-project.org') # Palettes de couleurs
 library("wordcloud2")
 library("RColorBrewer")
 library(readr) #librairie import csv
+library(shiny)
 
-setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
+setwd("/srv/shiny-server/shinyapp")
+
+#Andreasetwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
 
 #----Fonction d'importation et nettoyage
