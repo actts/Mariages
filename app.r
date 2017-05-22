@@ -1,6 +1,11 @@
-﻿#source(file="global.r") 
+﻿setwd("/srv/shiny-server/shinyapp")
+#setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
-options(encoding = "UTF-8")
+if(exists("DDEP")==FALSE){
+source(file="global.r")
+}
+
+
 
 #input : partie interface utilisateur, gère les différentes entrées de l'utilisateur
 ui<-fluidPage(

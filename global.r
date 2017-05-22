@@ -1,6 +1,8 @@
 #nettoyage de l'espace de travail
 rm(list=ls())
 
+options(encoding = "UTF-8")
+
 #installation package et librairies
 
 install.packages("wordcloud2", repos='http://cran.us.r-project.org') # générateur de word-cloud 
@@ -9,10 +11,6 @@ library("wordcloud2")
 library("RColorBrewer")
 library(readr) #librairie import csv
 library(shiny)
-
-setwd("/srv/shiny-server/shinyapp")
-
-#Andreasetwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
 
 #----Fonction d'importation et nettoyage
