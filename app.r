@@ -26,7 +26,8 @@ includeCSS("www/test.css"),
 		selectInput(
 				inputId="dep",
 				label="De quel département venez vous ?",
-				choices= c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","2A","2B"),
+				choices= c(rep(1:95), "2A","2B"),
+				#c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","2A","2B"),
 				selected=NULL,
 				multiple=FALSE,
 				selectize=TRUE
@@ -59,69 +60,31 @@ includeCSS("www/test.css"),
 #output	: partie serveur, gère les objets à retourner	
 server<-function(input, output, session) {
 
-#Tranche d'âge selon âge entré
-# TAGE<-reactive({
-	# if (input$age<30){
-		# TAGE<-1
-	# }
-	# else if (input$age>=30&input$age<50){
-		# TAGE<-2
-	# }
-	# else if (input$age>=50){
-		# TAGE<-3
-	# }
-# })
-
-
-#A partir d'ici, nous considérerons la personne
-#Exemple : Mdata1 > lorsque la personne considérée = variables[1] et le conjoint considéré = variables[2]
-#Ddata : jeu de données correspondant au profil avec conjoint dep diff
-#Ddata0 > versions correspondant aux genres
-Ddata0<-reactive({
-	#Données correspondant aux genres âge et département
-	if (input$sexe1=="Homme"&input$sexe2=="Homme") {
-		Ddata1<-DDEP[DDEP$SEXE1=="M"&DDEP$SEXE2=="M",]
-	}  else if ( input$sexe1=="Femme"&input$sexe2=="Femme") {
-		Ddata1<-DDEP[DDEP$SEXE1=="FE"&DDEP$SEXE2=="FE",]
-	}else if (input$sexe1!=input$sexe2){
-		Ddata1<-DDEP[DDEP$SEXE1!=DDEP$SEXE2,]
-	}
-})
 
 Ddata1<-reactive({
-binf<-input$age-5
-bsup<-input$age+5
-Ddata1<-Ddata0()[Ddata0()$AGE1%in% binf:bsup &Ddata0()$DEPNAIS1==input$dep,]
+binf<-input$age-2
+bsup<-input$age+2
+Ddata1<-DDEP[DDEP$AGE1%in% binf:bsup &DDEP$DEPNAIS1==input$dep&DDEP$SEXE1==input$sexe1&DDEP$SEXE2==input$sexe2,]
 })
 
 Ddata2<-reactive({
-binf<-input$age-5
-bsup<-input$age+5
-Ddata2<-Ddata0()[Ddata0()$AGE2%in% binf:bsup &Ddata0()$DEPNAIS2==input$dep,]
+binf<-input$age-2
+bsup<-input$age+2
+Ddata2<-DDEP[DDEP$AGE1%in% binf:bsup &DDEP$DEPNAIS1==input$dep&DDEP$SEXE1==input$sexe2&DDEP$SEXE2==input$sexe1,]
 })
 
 #Mdata : jeu de données correspondant au profil avec conjoint meme dep
-Mdata0<-reactive({
-	#Données dep et sexes
-	if (input$sexe1=="Homme"&input$sexe2=="Homme") {
-		Mdata<-MDEP[MDEP$DEPNAIS1==input$dep&MDEP$SEXE1==MDEP$SEXE2&MDEP$SEXE1=="M",]
-	} else if ( input$sexe1=="Femme"&input$sexe2=="Femme") {
-		Mdata<-MDEP[MDEP$DEPNAIS1==input$dep&MDEP$SEXE1==MDEP$SEXE2&MDEP$SEXE1=="FE",]
-	} else if (input$sexe1!=input$sexe2){
-		Mdata<-MDEP[MDEP$DEPNAIS1==input$dep&MDEP$SEXE1!=MDEP$SEXE2,]
-	}
-})
 
 Mdata1<-reactive({
-binf<-input$age-5
-bsup<-input$age+5
-Mdata1<-Mdata0()[Mdata0()$AGE1 %in% binf:bsup,]
+binf<-input$age-2
+bsup<-input$age+2
+Mdata1<-MDEP[MDEP$AGE1 %in% binf:bsup&MDEP$SEXE1==input$sexe1&MDEP$SEXE2==input$sexe2&MDEP$DEPNAIS1==input$dep,]
 })
 
 Mdata2<-reactive({
-binf<-input$age-5
-bsup<-input$age+5
-Mdata2<-Mdata0()[Mdata0()$AGE2 %in% binf:bsup,]
+binf<-input$age-2
+bsup<-input$age+2
+Mdata2<-MDEP[MDEP$AGE2 %in% binf:bsup&MDEP$SEXE1==input$sexe1&MDEP$SEXE2==input$sexe2&MDEP$DEPNAIS1==input$dep,]
 })
 
 
@@ -141,9 +104,9 @@ Mterms<-reactive({
 		TABLE<-merge(TABLE1,TABLE2, by="dep", all=TRUE)
 		if(nrow(TABLE1)==0&nrow(TABLE2)==0){
 		TABLE[1,1]<-"Aucun mariage"
-		TABLE[1,2]<-1
-		TABLE[2,1]<-"correspondant"
-		TABLE[2,2]<-1
+		TABLE[1,2]<-3
+		TABLE[2,1]<-"Aucun correspondant"
+		TABLE[2,2]<-0.5
 		Terms<-TABLE[,-3]
 		} else  {		
 		#Le département considéré est forcément bcp + grand,
@@ -163,19 +126,19 @@ Mterms<-reactive({
 		TABLE<-TABLE[,-c(1,3,4)]
 		TABLE$freq<-as.numeric(paste(TABLE$freq))
 		
-		Terms<-TABLE[order(TABLE[,2],decreasing=FALSE),] 
+		Terms<-TABLE[order(TABLE[,2],decreasing=TRUE),] 
 		}	
 })
 
  # brewer.pal(8, "Spectral")
-output$table<-renderTable({Mterms()})
+output$table<-renderTable({head(Mterms(),20)})
  
 output$nuage <- renderWordcloud2({
 	wordcloud2(data=head(Mterms(),20), size = 1, minSize = 2, gridSize = 0,
 		fontFamily = 'Calibri', fontWeight = 'bold',
 		color=c("#FFFFFF","#FFFFFF","#0778FF","#0778FF","#8FFFB2","#8FFFB2","#10F156","#10F156","#F4FF6C","#F4FF6C","#FFC536","#FFC536","#FFA600","#FFA600","#FF6400","#FF6400","#FF3E7E","#FF3E7E"), backgroundColor = "#40c2cc",
-		minRotation = -pi, maxRotation = pi, shuffle = TRUE,
-		rotateRatio = 0.4, shape = 'triangle', ellipticity = 0.65,
+		minRotation = -pi/4, maxRotation = pi/4, shuffle = TRUE,
+		rotateRatio = 0.4, shape = 'circle', ellipticity = 0.65,
 		widgetsize = NULL, figPath = NULL, hoverFunction = NULL)
 	
 	})
