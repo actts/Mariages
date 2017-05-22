@@ -49,8 +49,7 @@ includeCSS("www/test.css"),
 			textOutput('text3'),
 			#nb obs pour le cas considéré
 			textOutput('textfin'),
-			plotOutput('logo'),
-			tableOutput('table')
+			plotOutput('logo')
 		)
 		
 	)
@@ -130,8 +129,6 @@ Mterms<-reactive({
 		}	
 })
 
- # brewer.pal(8, "Spectral")
-output$table<-renderTable({head(Mterms(),20)})
  
 output$nuage <- renderWordcloud2({
 	wordcloud2(data=head(Mterms(),20), size = 1, minSize = 2, gridSize = 0,
@@ -170,7 +167,7 @@ output$textfin<-renderText({
 
 output$logo <- renderImage({
 
-    return(list(src = "images/logo.png"))	
+    return(list(src = "images/logodrdv.png"))	
 	})
 }	
 
