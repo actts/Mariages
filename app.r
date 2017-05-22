@@ -1,5 +1,5 @@
-﻿#setwd("/srv/shiny-server/shinyapp")
-setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
+﻿setwd("/srv/shiny-server/shinyapp")
+#setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
 if(exists("DDEP")==FALSE){
 source(file="global.r")
