@@ -165,7 +165,7 @@ output$text2<-renderText({
 	if (is.na(age)){
 	paste("")
 	} else 
-	paste("Age moyen de l'âme soeur :",age)
+	paste("Age moyen du conjoint :",age)
 	
 	})
 
