@@ -5,9 +5,12 @@ body{
 
 h2 {
     text-align: center;
-	color:white
+	color:white;
+	font-family: calibri, verdana,sans-serif;
+	font-weight: bold;
+    font-size: 500%;
 }
-
+  
 form.well {
     background-color: #F0EAE8;
 	border-radius: 10px;
@@ -21,10 +24,9 @@ div#sexe2 {
     color: black;
 }
 
-/* div#logo label.control-label {
-	color: black;
-} */
-   
+.control-label{
+	color:black;
+}
 
 div#age {
     color: black;
@@ -41,4 +43,6 @@ div#logo img {
     margin-top: 100px;
 	text-align: end;
 }
+
+img {
 

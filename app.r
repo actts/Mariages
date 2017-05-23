@@ -49,6 +49,8 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 			textOutput('text1'),
 			#wordcloud
 			wordcloud2Output('nuage'),
+			#icone
+			plotOutput('imagecouple'),
 			#age moyen du conjoint
 			textOutput('text2'),
 			#pourcentage de lieux mariage dans le dep
@@ -147,7 +149,11 @@ output$nuage <- renderWordcloud2({
 	})
 	
 output$text1<-renderText({
-	paste(round((nrow(Mdata1())+nrow(Mdata2()))/(nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata2()))*100), " % des personnes correspondant à votre profil ont un conjoint originaire du même département. Sinon, les départements les plus représentés sont les suivants :")
+	mdep<-round((nrow(Mdata1())+nrow(Mdata2()))/(nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata2()))*100)
+	if ( is.na(mdep)){
+	paste("")
+	} else
+	paste(mdep, " % des personnes correspondant à votre profil ont un conjoint originaire du même département. Sinon, les départements les plus représentés sont les suivants :")
 	})
 
 output$text2<-renderText({
@@ -156,14 +162,20 @@ output$text2<-renderText({
 	#dénominateur
 	denom<-nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata2())
 	age<-round(num/denom)
-	
+	if (is.na(age)){
+	paste("")
+	} else 
 	paste("Age moyen de votre âme soeur :",age)
+	
 	})
 
 output$text3<-renderText({
 	num<-nrow(Mdata1()[Mdata1()$DEPNAIS1==Mdata1()$DEPMAR,])+nrow(Mdata2()[Mdata2()$DEPNAIS2==Mdata2()$DEPMAR,])+nrow(Ddata1()[Ddata1()$DEPNAIS1==Ddata1()$DEPMAR,])+nrow(Ddata2()[Ddata2()$DEPNAIS2==Ddata2()$DEPMAR,])
 	denom<-nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata2())
 	depmar<-round(num/denom*100)
+	if (is.na(depmar)){
+	paste("")
+	} else 
 	paste(depmar, "% des personnes du même profil se marient dans le département dans lequel ils sont nés")
 })
 
@@ -175,6 +187,19 @@ output$logo <- renderImage({
 
     return(list(src = "images/logodrdv.png"))	
 	})
+	
+output$imagecouple <- renderImage({
+    if (is.null(input$sexe1)){
+		return(NULL)
+	} else {
+		img<-paste("images/",input$sexe1,"-",input$sexe2,".png", sep="")
+		return(list(
+			src=img,
+			filetype = "image/png",
+			alt="couple"
+		)) }
+}, deleteFile = FALSE)
+	
 }	
 
 
