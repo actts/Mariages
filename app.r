@@ -1,5 +1,5 @@
-﻿setwd("/srv/shiny-server/shinyapp")
-#setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
+﻿#setwd("/srv/shiny-server/shinyapp")
+setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
 if(exists("DDEP")==FALSE){
 source(file="global.r")
@@ -153,7 +153,7 @@ output$text1<-renderText({
 	if ( is.na(mdep)){
 	paste("")
 	} else
-	paste(mdep, " % des personnes qui vous ressemblent ont un conjoint originaire du même département. Si ce n'est pas le cas, vois les départements les plus représentés :")
+	paste(mdep, " % des personnes qui vous ressemblent ont un conjoint originaire du même département. Si ce n'est pas le cas, voici les départements les plus représentés :")
 	})
 
 output$text2<-renderText({
