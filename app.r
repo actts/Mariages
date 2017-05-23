@@ -12,7 +12,7 @@ ui<-fluidPage(
 includeCSS("www/test.css"),
 tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 
-	titlePanel("D'où vient votre data-lover ?"),
+	titlePanel("D'où vient votre âme-soeur ?"),
 	sidebarLayout(
 				
 		sidebarPanel(
@@ -32,7 +32,7 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 			),
 		selectInput(
 				inputId="dep",
-				label="De quel département venez vous ?",
+				label="De quel département êtes vous originaire ?",
 				choices= c(rep(1:95), "2A","2B"),
 				selected=NULL,
 				multiple=FALSE,
@@ -40,7 +40,7 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 			),
 		sliderInput(
 				"age",
-                "Quel âge avez vous ?",
+                "À quel âge aimeriez-vous vous marier ?",
                 min = 18,  max = 99, value = 35
 			)
 		),
@@ -153,7 +153,7 @@ output$text1<-renderText({
 	if ( is.na(mdep)){
 	paste("")
 	} else
-	paste(mdep, " % des personnes correspondant à votre profil ont un conjoint originaire du même département. Sinon, les départements les plus représentés sont les suivants :")
+	paste(mdep, " % des personnes qui vous ressemblent ont un conjoint originaire du même département. Si ce n'est pas le cas, vois les départements les plus représentés :")
 	})
 
 output$text2<-renderText({
@@ -165,7 +165,7 @@ output$text2<-renderText({
 	if (is.na(age)){
 	paste("")
 	} else 
-	paste("Age moyen de votre âme soeur :",age)
+	paste("Age moyen de l'âme soeur :",age)
 	
 	})
 
@@ -176,11 +176,13 @@ output$text3<-renderText({
 	if (is.na(depmar)){
 	paste("")
 	} else 
-	paste(depmar, "% des personnes du même profil se marient dans le département dans lequel ils sont nés")
+	dep<-DEPLIB[DEPLIB$DEP==input$dep,2]
+	txt<-paste(depmar, "% des personnes correspondant à votre profil se marient en ", dep)
+	return(txt)
 })
 
 output$textfin<-renderText({
-	paste("Observation réalisée grâce à un recensement de",nrow(Ddata1())+nrow(Ddata2()), " personnes mariées présentant votre profil sur ", 2*nrow(MARIAGES), "personnes totales.")
+	paste("Observation réalisée grâce à un recensement de",nrow(Ddata1())+nrow(Ddata2()), " personnes mariées (sur ", 2*nrow(MARIAGES), "individus.)")
 	})
 
 output$logo <- renderImage({
