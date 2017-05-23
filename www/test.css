@@ -1,6 +1,8 @@
 body{
 	background-color: #40c2cc;
-	;
+	color:white;
+	font-family: calibri, verdana,sans-serif;
+	font-size:200%;
 }
 
 h2 {
@@ -41,8 +43,16 @@ div#age {
 div#logo img {
     width: 200px;
     margin-top: 100px;
-	text-align: end;
+	float: right;
 }
 
-img {
+text2{
+vertical-align:100%;
 
+}
+
+div#imagecouple img{
+vertical-align:100%;
+    /* width: 75%; 
+    height: 400px;*/
+}

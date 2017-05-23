@@ -50,14 +50,14 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 			#wordcloud
 			wordcloud2Output('nuage'),
 			#icone
-			plotOutput('imagecouple'),
+			imageOutput('imagecouple'),
 			#age moyen du conjoint
 			textOutput('text2'),
 			#pourcentage de lieux mariage dans le dep
 			textOutput('text3'),
 			#nb obs pour le cas considéré
 			textOutput('textfin'),
-			plotOutput('logo')
+			imageOutput('logo')
 		)
 		
 	)
@@ -186,7 +186,7 @@ output$textfin<-renderText({
 output$logo <- renderImage({
 
     return(list(src = "images/logodrdv.png"))	
-	})
+	}, deleteFile = FALSE)
 	
 output$imagecouple <- renderImage({
     if (is.null(input$sexe1)){
