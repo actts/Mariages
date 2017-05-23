@@ -17,6 +17,19 @@ div#sexe1 {
     color: black;
 }
 
+div#sexe2 {
+    color: black;
+}
+
+/* div#logo label.control-label {
+	color: black;
+} */
+   
+
+div#age {
+    color: black;
+}
+
 .row {
     margin-right: -15px;
     margin-left: -15px;
@@ -26,5 +39,6 @@ div#sexe1 {
 div#logo img {
     width: 200px;
     margin-top: 100px;
+	text-align: end;
 }
 

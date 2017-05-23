@@ -1,5 +1,5 @@
-﻿setwd("/srv/shiny-server/shinyapp")
-#setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
+﻿#setwd("/srv/shiny-server/shinyapp")
+setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
 if(exists("DDEP")==FALSE){
 source(file="global.r")
@@ -10,6 +10,8 @@ source(file="global.r")
 #input : partie interface utilisateur, gère les différentes entrées de l'utilisateur
 ui<-fluidPage(
 includeCSS("www/test.css"),
+tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
+
 	titlePanel("D'où vient votre data-lover ?"),
 	sidebarLayout(
 				
@@ -39,7 +41,7 @@ includeCSS("www/test.css"),
 		sliderInput(
 				"age",
                 "Quel âge avez vous ?",
-                min = 18,  max = 99, value = 1
+                min = 18,  max = 99, value = 35
 			)
 		),
 		mainPanel(
