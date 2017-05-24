@@ -44,23 +44,25 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
                 min = 18,  max = 99, value = 35
 			)
 		),
-		mainPanel(
-			#pourcentage du mm dep
-			textOutput('text1'),
-			#wordcloud
-			wordcloud2Output('nuage'),
-			#icone
-			imageOutput('imagecouple'),
-			#age moyen du conjoint
-			textOutput('text2'),
-			#pourcentage de lieux mariage dans le dep
-			textOutput('text3'),
-			#nb obs pour le cas considéré
-			textOutput('textfin'),
-			imageOutput('logo')
-		)
-		
 	)
+	
+	mainPanel(
+		#pourcentage du mm dep
+		textOutput('text1'),
+		#wordcloud
+		wordcloud2Output('nuage'),
+		#icone
+		imageOutput('imagecouple'),
+		#age moyen du conjoint
+		textOutput('text2'),
+		#pourcentage de lieux mariage dans le dep
+		textOutput('text3'),
+		#nb obs pour le cas considéré
+		textOutput('textfin'),
+		imageOutput('logo')
+	)
+		
+	
 
 )
 
