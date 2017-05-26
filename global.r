@@ -10,7 +10,7 @@ install.packages("RColorBrewer", repos='http://cran.us.r-project.org') # Palette
 library("wordcloud2")
 library("RColorBrewer")
 library(readr) #librairie import csv
-library(shiny)
+
 
 
 #----Fonction d'importation et nettoyage

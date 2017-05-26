@@ -1,21 +1,75 @@
-﻿#setwd("/srv/shiny-server/shinyapp")
+﻿
+#setwd("/srv/shiny-server/shinyapp")
 setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
 if(exists("DDEP")==FALSE){
-source(file="global.r")
+library(shiny)
+install.packages("shinyjs", repos='http://cran.us.r-project.org')
+library(shinyjs)
+install.packages("wordcloud2", repos='http://cran.us.r-project.org') # générateur de word-cloud 
+library("wordcloud2")
 }
 
-
+appCSS <- "
+#loading-content {
+  position: absolute;
+  background-color: #40c2cc;
+  opacity: 0.9;
+  z-index: 100;
+  left: 0;
+  right: 0;
+  height: 100%;
+  font-weight:bold;
+  font-family:calibri, verdana,sans-serif;
+  text-align: center;
+  color: #FFFFFF;
+  font-size: 400%;
+}
+ div#loading-img{
+	 background-color: #40c2cc;
+	height : 200px;
+ }
+"
 
 #input : partie interface utilisateur, gère les différentes entrées de l'utilisateur
 ui<-fluidPage(
+
+useShinyjs(),
+  inlineCSS(appCSS),
+  # Loading message
+   div(
+     id = "loading-content",
+	 div(
+		id = "loading-img"
+	 ),
+	 "A la recherche de votre âme soeur..."
+   ),
+  
+  # The main app code goes here
+  hidden(
+  div(
+     id = "app-content",
+
+
 includeCSS("www/test.css"),
 tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 
-	titlePanel("D'où vient votre âme-soeur ?"),
+	 # titlePanel( 
+				# "D'où vient votre",
+				# div(class="rose", id="titreRose", 
+					# "âme-soeur"),
+				# "?"
+			# ),
+
+			div(id="titre",
+			"D'où vient votre",
+			span( class="rose", "âme-soeur"),
+			"?"),
+					
 	sidebarLayout(
-				
+		 
 		sidebarPanel(
+			div(id="sexeform",
 			radioButtons(
 				inputId="sexe1",
 				label="Vous êtes ?",
@@ -23,52 +77,96 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 				selected=NULL,
 				inline=FALSE
 			),
-		radioButtons(
+			radioButtons(
 				inputId="sexe2",
 				label="Vous cherchez ?",
 				choices=c("Femme","Homme"),
 				selected=NULL,
 				inline=FALSE
-			),
-		selectInput(
+			)),
+			selectInput(
 				inputId="dep",
 				label="De quel département êtes vous originaire ?",
-				choices= c(rep(1:95), "2A","2B"),
+				choices= c(rep(1:19),"2A","2B",rep(21:95) ),
 				selected=NULL,
 				multiple=FALSE,
 				selectize=TRUE
 			),
-		sliderInput(
+			sliderInput(
 				"age",
                 "À quel âge aimeriez-vous vous marier ?",
                 min = 18,  max = 99, value = 35
 			)
 		),
-	)
-	
-	mainPanel(
-		#pourcentage du mm dep
-		textOutput('text1'),
-		#wordcloud
-		wordcloud2Output('nuage'),
-		#icone
-		imageOutput('imagecouple'),
-		#age moyen du conjoint
-		textOutput('text2'),
-		#pourcentage de lieux mariage dans le dep
-		textOutput('text3'),
-		#nb obs pour le cas considéré
-		textOutput('textfin'),
-		imageOutput('logo')
-	)
 		
-	
+		mainPanel(	
+			#pourcentage du mm dep
+			div(id="text1",
+				span(class="rose",
+					textOutput('text1')),
+				"  des personnes qui vous ressemblent ont un conjoint originaire du même département. Si ce n'est pas le cas, voici les départements les ",
+				span(class="rose",
+					"plus représentés  "),
+				" :"),
+			
+			
+			#wordcloud
+			wordcloud2Output(outputId='nuage')
+			),
+		),
+		fluidRow(
+			div(id="blocres",
+					#icone
+					imageOutput('imagecouple'),
 
+					#age moyen du conjoint
+					div(id="tage",
+						"Age moyen du conjoint :",
+						span(class="rose",
+						textOutput('text2'))
+						),
+
+					#pourcentage de lieux mariage dans le dep
+					div(id="text3",
+						span(class="rose", textOutput("depmar")),
+						"% des personnes correspondant à votre profil se marient en ",
+						span(class="rose", textOutput("dep"))
+						)
+				)
+			),
+		fluidRow(
+		
+					#nb obs pour le cas considéré
+					div(id="textfin",
+						"Observation réalisée grâce à un recensement de",
+						span(class="rose", textOutput("nbobs")),
+						" personnes mariées (sur ",
+						span(class="rose", "7139436"),
+						"individus.)"
+					),
+
+					
+					imageOutput('logo')
+				
+			)	
+		)
+	)
 )
 
 #output	: partie serveur, gère les objets à retourner	
 server<-function(input, output, session) {
+output$load <- renderImage({
 
+    return(list(src = "images/logodrdv.png"))	
+	}, deleteFile = FALSE)
+
+
+if(exists("DDEP")==FALSE){
+source(file="global.r")
+}
+
+  # Hide the loading message when the rest of the server function has executed
+  hide(id = "loading-content", anim = TRUE, animType = "fade")    
 
 Ddata1<-reactive({
 binf<-input$age-2
@@ -153,9 +251,9 @@ output$nuage <- renderWordcloud2({
 output$text1<-renderText({
 	mdep<-round((nrow(Mdata1())+nrow(Mdata2()))/(nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata2()))*100)
 	if ( is.na(mdep)){
-	paste("")
+	paste("-")
 	} else
-	paste(mdep, " % des personnes qui vous ressemblent ont un conjoint originaire du même département. Si ce n'est pas le cas, voici les départements les plus représentés :")
+	paste(mdep, " % ", sep="")
 	})
 
 output$text2<-renderText({
@@ -165,26 +263,32 @@ output$text2<-renderText({
 	denom<-nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata2())
 	age<-round(num/denom)
 	if (is.na(age)){
-	paste("")
+	paste("-")
 	} else 
-	paste("Age moyen du conjoint :",age)
+	paste(age, " ans ",sep="")
 	
 	})
 
-output$text3<-renderText({
-	num<-nrow(Mdata1()[Mdata1()$DEPNAIS1==Mdata1()$DEPMAR,])+nrow(Mdata2()[Mdata2()$DEPNAIS2==Mdata2()$DEPMAR,])+nrow(Ddata1()[Ddata1()$DEPNAIS1==Ddata1()$DEPMAR,])+nrow(Ddata2()[Ddata2()$DEPNAIS2==Ddata2()$DEPMAR,])
-	denom<-nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata2())
-	depmar<-round(num/denom*100)
-	if (is.na(depmar)){
-	paste("")
+
+output$depmar<-renderText({
+		num<-nrow(Mdata1()[Mdata1()$DEPNAIS1==Mdata1()$DEPMAR,])+nrow(Mdata2()[Mdata2()$DEPNAIS2==Mdata2()$DEPMAR,])+nrow(Ddata1()[Ddata1()$DEPNAIS1==Ddata1()$DEPMAR,])+nrow(Ddata2()[Ddata2()$DEPNAIS2==Ddata2()$DEPMAR,])
+		denom<-nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata2())
+		depmar<-round(num/denom*100)
+ if (is.na(depmar)){
+		paste("-")
 	} else 
-	dep<-DEPLIB[DEPLIB$DEP==input$dep,2]
-	txt<-paste(depmar, "% des personnes correspondant à votre profil se marient en ", dep)
-	return(txt)
+		paste(depmar)
+		
 })
 
-output$textfin<-renderText({
-	paste("Observation réalisée grâce à un recensement de",nrow(Ddata1())+nrow(Ddata2()), " personnes mariées (sur ", 2*nrow(MARIAGES), "individus.)")
+output$dep<-renderText({
+
+	dep<-DEPLIB[DEPLIB$DEP==input$dep,2]
+	paste(dep)
+})
+
+output$nbobs<-renderText({
+	return<-nrow(Ddata1())+nrow(Ddata2())
 	})
 
 output$logo <- renderImage({
@@ -203,7 +307,10 @@ output$imagecouple <- renderImage({
 			alt="couple"
 		)) }
 }, deleteFile = FALSE)
-	
+
+
+show("app-content")
+
 }	
 
 

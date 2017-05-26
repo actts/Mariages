@@ -2,29 +2,53 @@ body{
 	background-color: #40c2cc;
 	color:white;
 	font-family: calibri, verdana,sans-serif;
-	font-size:200%;
+	font-size:250%;
+	margin-left:2%;
 }
 
-h2 {
-    text-align: center;
-	color:white;
+div#titre{
+
 	font-family: calibri, verdana,sans-serif;
 	font-weight: bold;
-	margin-top: 5%;
-	font-size: 300%
+	margin-top:2%;
+	margin-bottom:1%;
+	font-size: 300%;
+	width: 100%;
+	text-align: center !important;
+
 }
+		
+div#titreRose{
+	margin-left:2%;
+	margin-right:2%;
+}
+
+.rose{
+	font-weight:bold;
+	color:#ea518e;
+	margin-right:5px;
+	margin-left:2px;
+	display:inline-flex;
+	}
   
 form.well {
     background-color: #F0EAE8;
-	border-radius: 10px;
+	border-radius: 10px; 
+	text-align: left ;
+} 
+div#sexeform{
+	display:inline-flex;
 }
 
 div#sexe1 {
     color: black;
+	horizont-align: 100%;
+	margin-left: 50px;
 }
 
 div#sexe2 {
     color: black;
+	margin-left: 150px;
 }
 
 .control-label{
@@ -39,20 +63,81 @@ div#age {
     margin-right: -15px;
     margin-left: -15px;
     color: white;
+    text-align: center;
+}
+
+.checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio]{
+	margin-top:12px;
+}
+
+div#nuage{
+	border-bottom:100px;
+	border-top:100px;
+	border-left:-50px;
+}	
+
+div#blocres{
+	display:inline-flex;
+}
+	
+div#imagecouple {
+    width: 200px !important;
+    height: 160px !important ;
+    padding-bottom: 10px !important;
+	margin-right: 10px !important;
+	margin-top:10px !important;
+	border-left:20px !important;
+	}
+
+div#tage{
+	margin-top:25px;	
+}
+
+div#text3 {
+    margin-top: 75px;
+    margin-left: -330px;
+}
+
+
+div#textfin{
+	font-style:italic;
+	margin-top: 20px;		
+}
+
+div#logo {
+    width: 100%;
+    height: 100% !important;
 }
 
 div#logo img {
-    width: 200px;
-    margin-top: 100px;
-	
+    margin: 40px 0 40px;
 }
 
-text2{
-vertical-align:100%;
-
+.irs-bar {
+    height: 8px;
+    top: 25px;
+    border-top: 1px solid #ea518e;
+    border-bottom: 1px solid #ea518e;
+    background: #ea518e;
 }
 
-div#imagecouple img{
-vertical-align:100%;
+.irs-bar-edge {
+    height: 8px;
+    top: 25px;
+    width: 14px;
+    border: 1px solid #ea518e;
+    border-right: 0;
+    background: #ea518e;
+    border-radius: 16px 0 0 16px;
+    -moz-border-radius: 16px 0 0 16px;
+}
 
+ .irs-single {
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.333;
+    text-shadow: none;
+    padding: 1px 3px;
+    background: #ea518e;
+    border-radius: 3px;
 }
