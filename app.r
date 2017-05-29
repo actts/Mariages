@@ -1,8 +1,4 @@
-﻿rm(list=ls())
-
-
-
-#setwd("/srv/shiny-server/shinyapp")
+﻿#setwd("/srv/shiny-server/shinyapp")
 setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
 if(exists("DDEP")==FALSE){
@@ -48,7 +44,7 @@ useShinyjs(),
 	 "Chargement..."
    ),
   
-  # The main app code goes here
+  # Code de l'app
   hidden(
   div(
      id = "app-content",
@@ -56,13 +52,6 @@ useShinyjs(),
 
 includeCSS("www/style.css"),
 tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
-
-	 # titlePanel( 
-				# "D'où vient votre",
-				# div(class="rose", id="titreRose", 
-					# "âme-soeur"),
-				# "?"
-			# ),
 
 			div(id="titre",
 			"D'où vient votre",
@@ -72,7 +61,6 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 	sidebarLayout(
 		 
 		sidebarPanel(
-			div(id="sexeform",
 			radioButtons(
 				inputId="sexe1",
 				label="Vous êtes ?",
@@ -86,7 +74,7 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 				choices=c("Femme","Homme"),
 				selected=NULL,
 				inline=FALSE
-			)),
+			),
 			selectInput(
 				inputId="dep",
 				label="De quel département êtes vous originaire ?",
@@ -168,7 +156,7 @@ if(exists("DDEP")==FALSE){
 source(file="global.r")
 }
 
-  # Hide the loading message when the rest of the server function has executed
+  # Cache le message chargement lorsque les données sont importées
   hide(id = "loading-content", anim = TRUE, animType = "fade")    
 
   
