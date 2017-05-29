@@ -120,7 +120,7 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 					#pourcentage de lieux mariage dans le dep
 					div(id="text3",
 						span(class="rose", textOutput("depmar")),
-						"% des personnes correspondant à votre profil se marient en ",
+						"% des personnes correspondant à votre profil se marient dans le département : ",
 						span(class="rose", textOutput("dep"))
 						)
 				)
@@ -135,9 +135,10 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 						span(class="rose", "7139436"),
 						"individus.)"
 					),
-
-					#imageOutput("logo")
-					tags$a(plotOutput("logo"),href="https://www.datarendezvous.com/")
+	
+	div(id="pow","Powered with love by"),
+	#imageOutput("logo")
+	tags$a(plotOutput("logo"),href="https://www.datarendezvous.com/")
 				
 			)	
 		)
