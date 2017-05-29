@@ -232,7 +232,7 @@ Mterms<-reactive({
  
 output$nuage <- renderWordcloud2({
 	wordcloud2(data=head(Mterms(),20), size = 1, minSize = 2, gridSize = 0,
-		fontFamily = 'Calibri', fontWeight = 'bold',
+		fontFamily = 'Verdana', fontWeight = 'bold',
 		color=c("#FFFFFF","#FFFFFF","#0778FF","#0778FF","#8FFFB2","#8FFFB2","#10F156","#10F156","#F4FF6C","#F4FF6C","#FFC536","#FFC536","#FFA600","#FFA600","#FF6400","#FF6400","#FF3E7E","#FF3E7E"), backgroundColor = "#40c2cc",
 		minRotation = -pi/4, maxRotation = pi/4, shuffle = TRUE,
 		rotateRatio = 0.4, shape = 'circle', ellipticity = 0.65,
