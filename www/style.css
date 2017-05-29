@@ -35,19 +35,16 @@ form.well {
 	border-radius: 10px; 
 	text-align: left ;
 } 
-div#sexeform{
-	display:inline-flex;
-}
+
 
 div#sexe1 {
     color: black;
-	horizont-align: 100%;
-	margin-left: 50px;
+	margin-left: 10px;
 }
 
 div#sexe2 {
     color: black;
-	margin-left: 150px;
+	margin-left: 10px;
 }
 
 .control-label{
