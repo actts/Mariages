@@ -41,7 +41,8 @@ useShinyjs(),
 	 div(
 		id = "loading-img"
 	 ),
-	 "Chargement..."
+	 "À la recherche de votre âme-soeur..",
+	 "(Chargement...)"
    ),
   
   # Code de l'app
