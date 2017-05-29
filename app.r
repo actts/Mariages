@@ -78,7 +78,7 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 			selectInput(
 				inputId="dep",
 				label="De quel département êtes vous originaire ?",
-				choices= c(rep(1:19),"2A","2B",rep(21:95) ),
+				choices= c("01","02","03","04","05","06","07","08","09",rep(10:19),"2A","2B",rep(21:95) ),
 				selected=NULL,
 				multiple=FALSE,
 				selectize=TRUE
@@ -160,17 +160,23 @@ source(file="global.r")
   # Cache le message chargement lorsque les données sont importées
   hide(id = "loading-content", anim = TRUE, animType = "fade")    
 
-  
+dep<-reactive({
+	if (input$dep %in% c("01","02","03","04","05","06","07","08","09")){
+		dep<-substr(input$dep,2,2)
+	} else 
+		dep<-input$dep
+})
+
 Ddata1<-reactive({
 binf<-input$age-2
 bsup<-input$age+2
-Ddata1<-DDEP[DDEP$AGE1%in% binf:bsup &DDEP$DEPNAIS1==input$dep&DDEP$SEXE1==input$sexe1&DDEP$SEXE2==input$sexe2,]
+Ddata1<-DDEP[DDEP$AGE1%in% binf:bsup &DDEP$DEPNAIS1==dep()&DDEP$SEXE1==input$sexe1&DDEP$SEXE2==input$sexe2,]
 })
 
 Ddata2<-reactive({
 binf<-input$age-2
 bsup<-input$age+2
-Ddata2<-DDEP[DDEP$AGE1%in% binf:bsup &DDEP$DEPNAIS1==input$dep&DDEP$SEXE1==input$sexe2&DDEP$SEXE2==input$sexe1,]
+Ddata2<-DDEP[DDEP$AGE1%in% binf:bsup &DDEP$DEPNAIS1==dep()&DDEP$SEXE1==input$sexe2&DDEP$SEXE2==input$sexe1,]
 })
 
 #Mdata : jeu de données correspondant au profil avec conjoint meme dep
@@ -178,13 +184,13 @@ Ddata2<-DDEP[DDEP$AGE1%in% binf:bsup &DDEP$DEPNAIS1==input$dep&DDEP$SEXE1==input
 Mdata1<-reactive({
 binf<-input$age-2
 bsup<-input$age+2
-Mdata1<-MDEP[MDEP$AGE1 %in% binf:bsup&MDEP$SEXE1==input$sexe1&MDEP$SEXE2==input$sexe2&MDEP$DEPNAIS1==input$dep,]
+Mdata1<-MDEP[MDEP$AGE1 %in% binf:bsup&MDEP$SEXE1==input$sexe1&MDEP$SEXE2==input$sexe2&MDEP$DEPNAIS1==dep(),]
 })
 
 Mdata2<-reactive({
 binf<-input$age-2
 bsup<-input$age+2
-Mdata2<-MDEP[MDEP$AGE2 %in% binf:bsup&MDEP$SEXE1==input$sexe1&MDEP$SEXE2==input$sexe2&MDEP$DEPNAIS1==input$dep,]
+Mdata2<-MDEP[MDEP$AGE2 %in% binf:bsup&MDEP$SEXE1==input$sexe1&MDEP$SEXE2==input$sexe2&MDEP$DEPNAIS1==dep(),]
 })
 
 
@@ -211,8 +217,8 @@ Mterms<-reactive({
 		} else  {		
 		#Le département considéré est forcément bcp + grand,
 		#on lui donne la valeur 0 pour que le wordcloud montre correctement les nuances entre les autres dép.
-		TABLE[TABLE$dep==input$dep,2]<-0
-		TABLE[TABLE$dep==input$dep,3]<-0
+		TABLE[TABLE$dep==dep(),2]<-0
+		TABLE[TABLE$dep==dep(),3]<-0
 		#Fusion avec DEPLIB : libellés des dep
 		TABLE<-merge(DEPLIB,TABLE, by.x="DEP",by.y="dep",all.y=TRUE)
 		#passage des valeurs en numérique pour le wordcloud
@@ -224,7 +230,7 @@ Mterms<-reactive({
 		TABLE$freq<-paste(TABLE$freq1+TABLE$freq2)
 		#On supprime les 
 		TABLE<-TABLE[,-c(1,3,4)]
-		TABLE$freq<-as.numeric(paste(TABLE$freq))
+		TABLE$freq<-round(100*as.numeric(paste(TABLE$freq))/sum(as.numeric(paste(TABLE$freq))),2)
 		
 		Terms<-TABLE[order(TABLE[,2],decreasing=TRUE),] 
 		}	
@@ -276,7 +282,7 @@ output$depmar<-renderText({
 
 output$dep<-renderText({
 
-	dep<-DEPLIB[DEPLIB$DEP==input$dep,2]
+	dep<-DEPLIB[DEPLIB$DEP==dep(),2]
 	paste(dep)
 })
 
