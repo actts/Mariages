@@ -81,7 +81,12 @@ div#age {
 }
 
 div#text1{
-text-align:left;
+	text-align:left;
+}
+
+span#infos {
+    font-style: italic;
+    font-size: 90%;
 }
 
 div#nuage{
