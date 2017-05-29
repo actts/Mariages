@@ -51,7 +51,7 @@ useShinyjs(),
      id = "app-content",
 
 
-includeCSS("www/test.css"),
+includeCSS("www/style.css"),
 tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 
 	 # titlePanel( 
