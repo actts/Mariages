@@ -145,8 +145,8 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 						"individus.)"
 					),
 
-					
-					imageOutput('logo')
+					#imageOutput("logo")
+					tags$a(plotOutput("logo"),href="https://www.datarendezvous.com/")
 				
 			)	
 		)
@@ -295,6 +295,11 @@ output$logo <- renderImage({
 
     return(list(src = "images/logodrdv.png"))	
 	}, deleteFile = FALSE)
+	
+	
+	
+	
+	
 	
 output$imagecouple <- renderImage({
     if (is.null(input$sexe1)){

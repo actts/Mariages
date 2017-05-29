@@ -10,9 +10,8 @@ div#titre{
 
 	font-family: calibri, verdana,sans-serif;
 	font-weight: bold;
-	margin-top:2%;
 	margin-bottom:1%;
-	font-size: 300%;
+	font-size: 200%;
 	width: 100%;
 	text-align: center !important;
 
@@ -68,6 +67,10 @@ div#age {
 
 .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio]{
 	margin-top:12px;
+}
+
+div#text1{
+text-align:left;
 }
 
 div#nuage{
