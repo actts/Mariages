@@ -6,6 +6,19 @@ body{
 	margin-left:2%;
 }
 
+div#loading-content{
+	margin-top:5%;
+}
+
+div#chargmt{
+	font-family: calibri, verdana,sans-serif;
+	font-weight: bold;
+	margin-bottom:1%;
+	font-size: 70px;
+	width: 100%;
+	text-align: center !important;
+}
+
 
 div#titre{
 

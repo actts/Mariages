@@ -38,12 +38,11 @@ useShinyjs(),
   # Loading message
    div(
      id = "loading-content",
-	 div(
-		id = "loading-img"
-	 ),
-	 "À la recherche de votre âme-soeur..",
-	 "(Chargement...)"
-   ),
+	 "À la recherche de votre âme-soeur..." ,
+	div(
+		id= "chargmt",
+	 "(Chargement...)")),
+  
   
   # Code de l'app
   hidden(
