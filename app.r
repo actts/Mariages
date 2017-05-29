@@ -1,4 +1,7 @@
-﻿
+﻿rm(list=ls())
+
+
+
 #setwd("/srv/shiny-server/shinyapp")
 setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
@@ -42,7 +45,7 @@ useShinyjs(),
 	 div(
 		id = "loading-img"
 	 ),
-	 "A la recherche de votre âme soeur..."
+	 "Chargement..."
    ),
   
   # The main app code goes here
@@ -168,6 +171,7 @@ source(file="global.r")
   # Hide the loading message when the rest of the server function has executed
   hide(id = "loading-content", anim = TRUE, animType = "fade")    
 
+  
 Ddata1<-reactive({
 binf<-input$age-2
 bsup<-input$age+2
