@@ -114,9 +114,9 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 
 					#age moyen du conjoint
 					div(id="tage",
-						"Age moyen du conjoint :",
 						span(class="rose",
-						textOutput('text2'))
+						textOutput('text2')),
+						": age moyen du conjoint"
 						),
 
 					#pourcentage de lieux mariage dans le dep
