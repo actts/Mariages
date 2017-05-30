@@ -1,6 +1,4 @@
-﻿rm(list=ls())
-
-#setwd("/srv/shiny-server/shinyapp")
+﻿#setwd("/srv/shiny-server/shinyapp")
 setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
 if(exists("DDEP")==FALSE){
