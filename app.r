@@ -1,4 +1,6 @@
-﻿#setwd("/srv/shiny-server/shinyapp")
+﻿rm(list=ls())
+
+#setwd("/srv/shiny-server/shinyapp")
 setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
 
 if(exists("DDEP")==FALSE){
@@ -24,10 +26,7 @@ appCSS <- "
   color: #FFFFFF;
   font-size: 400%;
 }
- div#loading-img{
-	 background-color: #40c2cc;
-	height : 200px;
- }
+
 "
 
 #input : partie interface utilisateur, gère les différentes entrées de l'utilisateur
@@ -36,12 +35,18 @@ ui<-fluidPage(
 useShinyjs(),
   inlineCSS(appCSS),
   # Loading message
-   div(
+	div(
      id = "loading-content",
 	 "À la recherche de votre âme-soeur..." ,
+	
+	div(id="heart",
+		img(src='http://www.bittle-solutions.com/heart.gif', width="200px", height="200px")),
+	 
 	div(
 		id= "chargmt",
-	 "(Chargement...)")),
+	 "(Chargement...)")
+	 
+	 ),
   
   
   # Code de l'app
