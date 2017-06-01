@@ -115,15 +115,19 @@ div#imagecouple {
 	margin-right: 10px !important;
 	margin-top:10px !important;
 	border-left:20px !important;
+	margin-left:20% !important;
 	}
 
-div#tage{
-	margin-top:25px;	
+div#tage {
+    margin-top: 25px;
+    width: 100%;
+    margin-left: -19%;
 }
 
 div#text3 {
-    margin-top: 75px;
-    margin-left: -322px;
+    margin-top: 6%;
+    margin-left: -49%;
+    width: 100%;
 }
 
 
