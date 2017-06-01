@@ -165,6 +165,7 @@ source(file="global.r")
   # Cache le message chargement lorsque les données sont importées
   hide(id = "loading-content", anim = TRUE, animType = "fade")    
 
+#Corrige les département entre 1 et 9 afin de les faire correspondre aux jeux 
 dep<-reactive({
 	if (input$dep %in% c("01","02","03","04","05","06","07","08","09")){
 		dep<-substr(input$dep,2,2)
@@ -172,6 +173,7 @@ dep<-reactive({
 		dep<-input$dep
 })
 
+#Ddata : jeu de données correspondant au profil avec conjoint meme dep
 Ddata1<-reactive({
 binf<-input$age-2
 bsup<-input$age+2
@@ -195,7 +197,7 @@ Mdata1<-MDEP[MDEP$AGE1 %in% binf:bsup&MDEP$SEXE1==input$sexe1&MDEP$SEXE2==input$
 Mdata2<-reactive({
 binf<-input$age-2
 bsup<-input$age+2
-Mdata2<-MDEP[MDEP$AGE2 %in% binf:bsup&MDEP$SEXE1==input$sexe1&MDEP$SEXE2==input$sexe2&MDEP$DEPNAIS1==dep(),]
+Mdata2<-MDEP[MDEP$AGE2 %in% binf:bsup&MDEP$SEXE1==input$sexe2&MDEP$SEXE2==input$sexe1&MDEP$DEPNAIS1==dep(),]
 })
 
 
