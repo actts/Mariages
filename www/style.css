@@ -49,13 +49,13 @@ div#titreRose{
 	margin-left:2px;
 	display:inline-flex;
 	}
-  
+
 form.well {
-    background-color: #F0EAE8;
-	border-radius: 10px; 
+    background-color: #Fff;
+	border-radius: 5px; 
 	text-align: left ;
 	width: 85%;
-} 
+}
 
 
 div#sexe1 {
@@ -70,6 +70,8 @@ div#sexe2 {
 
 .control-label{
 	color:black;
+font-size: 16px;
+    font-weight: 600;	
 }
 
 div#age {
@@ -82,11 +84,11 @@ div#age {
     color: white;
     text-align: center;
 }
-
+/*
 .checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio]{
 	margin-top:12px;
 }
-
+*/
 div#text1{
 	text-align:left;
 	margin-bottom:2%;
@@ -179,3 +181,75 @@ div#logo img {
     background: #ea518e;
     border-radius: 3px;
 }
+.checkbox label, .radio label {
+    min-height: 30px;
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-weight: normal;
+    font-size: 14px;
+    cursor: pointer;
+}
+.checkbox, .radio {
+    position: relative;
+    display: block;
+    margin-top: 5px;
+    margin-bottom: -10px;
+}
+.selectize-control {
+    position: relative;
+    font-size: 14px;
+}
+.rose #text1,#text2,#depmar,#dep{
+
+font-size: 40px;
+}
+
+input[type="radio"]:not(:checked) + span:before,
+input[type="radio"]:checked + span:before {
+  content: '';
+  position: absolute;
+  left:0; top: 2px;
+  width: 17px; height: 17px; 
+  border: 1px solid #fff;
+  background: #ea518e;
+  border-radius: 3px; 
+
+}
+ 
+
+input[type="radio"]:not(:checked) + span:after,
+input[type="radio"]:checked + span:after {
+  content: '?';
+  position: absolute;
+  top: 0; left: 4px;
+  font-size: 14px;
+  color: #fff;
+  transition: all .2s; 
+}
+
+input[type="radio"]:not(:checked) + span:after {
+  opacity: 0; 
+  transform: scale(0);
+}
+/* Aspect si "cochée" */
+input[type="radio"]:checked + span:after {
+  opacity: 1; 
+  transform: scale(1); 
+}
+
+input[type="radio"]:not(:checked),
+input[type="radio"]:checked {
+  position: absolute;
+  left: -9999px;
+}
+ 
+
+input[type="radio"]:not(:checked) + span,
+input[type="radio"]:checked + span {
+  position: relative; 
+  padding-left: 25px; 
+  cursor: pointer;   
+padding-top: 2px;
+}
+
+

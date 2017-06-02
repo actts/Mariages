@@ -10,7 +10,7 @@ install.packages("RColorBrewer", repos='http://cran.us.r-project.org') # Palette
 library("wordcloud2")
 library("RColorBrewer")
 library(readr) #librairie import csv
-
+library(shiny)
 
 
 #----Fonction d'importation et nettoyage
@@ -86,7 +86,9 @@ MARIAGES$AGE2<-MARIAGES$AMAR-MARIAGES$ANAIS2
 
 
 #Jeu de donnée associant le num du dep à son libellé
-DEPLIB <- read_delim("datasets/listeDEP.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+DEPLIB <- read_delim("datasets/listeDEP.csv", ";", escape_double = FALSE,
+ #locale = locale(encoding = "ASCII"), 
+trim_ws = TRUE)
 
 #Considère slmt les mariages où les conjoints viennent de dep différents
 DDEP<-MARIAGES[MARIAGES$DEPNAIS1!=MARIAGES$DEPNAIS2,]
@@ -94,4 +96,7 @@ DDEP<-MARIAGES[MARIAGES$DEPNAIS1!=MARIAGES$DEPNAIS2,]
 #Considère les mariages où les conjoints viennent du mm dép
 MDEP<-MARIAGES[MARIAGES$DEPNAIS1==MARIAGES$DEPNAIS2,]
 
-
+#Exportation 
+library(foreign)
+write.csv(MDEP,file="datasets/MDEP.csv")
+write.csv(DDEP,file="datasets/DDEP.csv")

@@ -22,9 +22,8 @@ appCSS <- "
   font-family:calibri, verdana,sans-serif;
   text-align: center;
   color: #FFFFFF;
-  font-size: 400%;
+  font-size: 200%;
 }
-
 "
 
 #input : partie interface utilisateur, gère les différentes entrées de l'utilisateur
@@ -111,40 +110,40 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 			),
 		),
 		fluidRow(
-			div(id="blocres",
-					#icone
-					imageOutput('imagecouple'),
-
-					#age moyen du conjoint
-					div(id="tage",
-						span(class="rose",
-						textOutput('text2')),
-						": age moyen du conjoint"
-						),
-
-					#pourcentage de lieux mariage dans le dep
-					div(id="text3",
-						span(class="rose", textOutput("depmar")),
-						"% des personnes correspondant à votre profil se marient dans le département : ",
-						span(class="rose", textOutput("dep"))
-						)
-				)
-			),
-		fluidRow(
-		
-					#nb obs pour le cas considéré
-					div(id="textfin",
-						"Observation réalisée grâce à un recensement de",
-						span(class="rose", textOutput("nbobs")),
-						" personnes mariées (sur ",
-						span(class="rose", "7139436"),
-						"individus.)"
-					),
+		div(id="bas",
+				div(id="blocres",
+						#icone
+						imageOutput('imagecouple'),
+					div(id="Texte",
+						#age moyen du conjoint
+						div(id="tage",
+							span(class="rose",
+							textOutput('text2')),
+							": age moyen du conjoint"
+							),
 	
-	div(id="pow","Powered with love by"),
-	#imageOutput("logo")
-	tags$a(plotOutput("logo"),href="https://www.datarendezvous.com/")
-				
+						#pourcentage de lieux mariage dans le dep
+						div(id="text3",
+							span(class="rose", textOutput("depmar")),
+							"% des personnes correspondant à votre profil se marient dans le département : ",
+							span(class="rose", textOutput("dep"))
+							)
+						)
+					),
+			
+						#nb obs pour le cas considéré
+						div(id="textfin",
+							"Observation réalisée grâce à un recensement de",
+							span(class="rose", textOutput("nbobs")),
+							" personnes mariées (sur ",
+							span(class="rose", "7139436"),
+							"individus.)"
+						),
+		
+			div(id="pow","Powered with love by"),
+			#imageOutput("logo")
+			tags$a(plotOutput("logo"),href="https://www.datarendezvous.com/")
+				)	
 			)	
 		)
 	)
@@ -160,6 +159,7 @@ output$load <- renderImage({
 
 if(exists("DDEP")==FALSE){
 source(file="global.r")
+
 }
 
   # Cache le message chargement lorsque les données sont importées
