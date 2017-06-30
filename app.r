@@ -1,12 +1,15 @@
-﻿#setwd("/srv/shiny-server/shinyapp")
-setwd("C:/Users/acottais/Documents/Etudes/localRepo/Mariages")
+setwd("/srv/shiny-server/mariages")
+#setwd("C:/Users/acottais/Documents/Etudes/localRepo/apppp")
 
 if(exists("DDEP")==FALSE){
 library(shiny)
-install.packages("shinyjs", repos='http://cran.us.r-project.org')
+#install.packages("shinyjs", repos='http://cran.us.r-project.org')
 library(shinyjs)
-install.packages("wordcloud2", repos='http://cran.us.r-project.org') # générateur de word-cloud 
+#install.packages("wordcloud2", repos='http://cran.us.r-project.org') # générateur de word-cloud 
 library("wordcloud2")
+
+source(file="global.r")
+
 }
 
 appCSS <- "
@@ -59,6 +62,16 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 			"D'où vient votre",
 			span( class="rose", "âme-soeur"),
 			"?"),
+#pourcentage du mm dep
+			div(id="text1",
+				span(class="rose",
+					textOutput('text1')),
+				"  des personnes qui ont un profil identique au vôtre ont un conjoint originaire du même département. "),
+
+			div(id="text1a"," Sinon, voici ci-dessous, la liste des départements les ",span(class="rose",
+					"plus représentatifs  "),
+				span(id="infos",
+					"(données en pourcentage)")," :"),
 					
 	sidebarLayout(
 		 
@@ -79,7 +92,7 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 			),
 			selectInput(
 				inputId="dep",
-				label="De quel département êtes vous originaire ?",
+				label="Vous êtes né(e) dans le:",
 				choices= c("01","02","03","04","05","06","07","08","09",rep(10:19),"2A","2B",rep(21:95) ),
 				selected=NULL,
 				multiple=FALSE,
@@ -93,20 +106,25 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 		),
 		
 		mainPanel(	
-			#pourcentage du mm dep
-			div(id="text1",
-				span(class="rose",
-					textOutput('text1')),
-				"  des personnes qui vous ressemblent ont un conjoint originaire du même département. Si ce n'est pas le cas, voici les départements les ",
-				span(class="rose",
-					"plus représentés  "),
-				span(id="infos",
-					"(données en pourcentage)"),
-				" :"),
+			
 			
 			
 			#wordcloud
-			wordcloud2Output(outputId='nuage')
+			div(id="dep1",
+				textOutput("dep1")
+				),
+			div(id="dep2",
+				textOutput("dep2")
+				),
+			div(id="dep3",
+				textOutput("dep3")
+				),
+			div(id="dep4",
+				textOutput("dep4")
+				),
+			div(id="dep5",
+				textOutput("dep5")
+				)
 			),
 		),
 		fluidRow(
@@ -119,7 +137,7 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 						div(id="tage",
 							span(class="rose",
 							textOutput('text2')),
-							": age moyen du conjoint"
+							": âge moyen du conjoint"
 							),
 	
 						#pourcentage de lieux mariage dans le dep
@@ -143,6 +161,7 @@ tags$head(tags$link(rel="shortcut icon", href="images/favicon.ico")),
 			div(id="pow","Powered with love by"),
 			#imageOutput("logo")
 			tags$a(plotOutput("logo"),href="https://www.datarendezvous.com/")
+
 				)	
 			)	
 		)
@@ -158,7 +177,7 @@ output$load <- renderImage({
 
 
 if(exists("DDEP")==FALSE){
-source(file="global.r")
+#source(file="global.r")
 
 }
 
@@ -237,22 +256,43 @@ Mterms<-reactive({
 		TABLE$freq<-paste(TABLE$freq1+TABLE$freq2)
 		#On supprime les 
 		TABLE<-TABLE[,-c(1,3,4)]
-		TABLE$freq<-round(100*as.numeric(paste(TABLE$freq))/sum(as.numeric(paste(TABLE$freq))),2)
-		
-		Terms<-TABLE[order(TABLE[,2],decreasing=TRUE),] 
+		TABLE$freq<-round(100*as.numeric(paste(TABLE$freq))/(nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata2())),2)
+		Terms<-TABLE[order(TABLE[,2],decreasing=TRUE),]
 		}	
 })
 
  
-output$nuage <- renderWordcloud2({
-	wordcloud2(data=head(Mterms(),20), size = 1, minSize = 2, gridSize = 0,
-		fontFamily = 'Verdana', fontWeight = 'bold',
-		color=c("#FFFFFF","#FFFFFF","#0778FF","#0778FF","#8FFFB2","#8FFFB2","#10F156","#10F156","#F4FF6C","#F4FF6C","#FFC536","#FFC536","#FFA600","#FFA600","#FF6400","#FF6400","#FF3E7E","#FF3E7E"), backgroundColor = "#40c2cc",
-		minRotation = -pi/4, maxRotation = pi/4, shuffle = TRUE,
-		rotateRatio = 0.4, shape = 'circle', ellipticity = 0.65,
-		widgetsize = NULL, figPath = NULL, hoverFunction = )
-	
-	})
+
+output$dep1<-renderText({
+	if(Mterms()[1,2]==0|is.na(Mterms()[1,2])){
+	paste("Aucun mariage correspondant")
+	}else
+	paste(Mterms()[1,1],"(",Mterms()[1,2],"%)")
+})
+output$dep2<-renderText({
+	if(Mterms()[2,2]==0|is.na(Mterms()[1,2])){
+	paste("")
+	}else
+	paste(Mterms()[2,1],"(",Mterms()[2,2],"%)")
+})
+output$dep3<-renderText({
+	if(Mterms()[3,2]==0|is.na(Mterms()[1,2])){
+	paste("")
+	}else
+	paste(Mterms()[3,1],"(",Mterms()[3,2],"%)")
+})
+output$dep4<-renderText({
+	if(Mterms()[4,2]==0|is.na(Mterms()[1,2])){
+	paste("")
+	}else
+	paste(Mterms()[4,1],"(",Mterms()[4,2],"%)")
+})
+output$dep5<-renderText({
+	if(Mterms()[5,2]==0|is.na(Mterms()[1,2])){
+	paste("")
+	}else
+	paste(Mterms()[5,1],"(",Mterms()[5,2],"%)")
+})
 	
 output$text1<-renderText({
 	mdep<-round((nrow(Mdata1())+nrow(Mdata2()))/(nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata2()))*100)
@@ -275,7 +315,6 @@ output$text2<-renderText({
 	
 	})
 
-
 output$depmar<-renderText({
 		num<-nrow(Mdata1()[Mdata1()$DEPNAIS1==Mdata1()$DEPMAR,])+nrow(Mdata2()[Mdata2()$DEPNAIS2==Mdata2()$DEPMAR,])+nrow(Ddata1()[Ddata1()$DEPNAIS1==Ddata1()$DEPMAR,])+nrow(Ddata2()[Ddata2()$DEPNAIS2==Ddata2()$DEPMAR,])
 		denom<-nrow(Mdata1())+nrow(Mdata2())+nrow(Ddata1())+nrow(Ddata2())
@@ -294,18 +333,13 @@ output$dep<-renderText({
 })
 
 output$nbobs<-renderText({
-	return<-nrow(Ddata1())+nrow(Ddata2())
+	return<-nrow(Ddata1())+nrow(Ddata2())+nrow(Mdata1())+nrow(Mdata2())
 	})
 
 output$logo <- renderImage({
 
     return(list(src = "images/logodrdv.png"))	
 	}, deleteFile = FALSE)
-	
-	
-	
-	
-	
 	
 output$imagecouple <- renderImage({
     if (is.null(input$sexe1)){
@@ -318,7 +352,6 @@ output$imagecouple <- renderImage({
 			alt="couple"
 		)) }
 }, deleteFile = FALSE)
-
 
 show("app-content")
 
